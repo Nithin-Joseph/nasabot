@@ -149,7 +149,7 @@ def enhanced(update, context):
 def main():
     """Start the bot."""
 
-    updater = Updater("1273635811:AAGCBdt8Ce_7UNuTaaTLFAEzNRDJHkzzuy8", use_context=True)
+    updater = Updater("1169696794:AAHejSdirYY8TZG08T_oNbPYcsCh7L-PUNg", use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
