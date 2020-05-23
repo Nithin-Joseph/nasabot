@@ -1,5 +1,7 @@
 import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import telegram
+
 
 
 
@@ -56,9 +58,10 @@ def day(update, context):
     title = data['title']
 
     #Replying
+    context.bot.send_chat_action(chat_id=id, action=telegram.ChatAction.TYPING)
     context.bot.send_photo(chat_id=str(id), photo =str(hdurl),caption=
                            f"\n<b>Pic of the day :  </b><code>{escape_html(date)}</code>",
-                           parse_mode="HTML")
+                           parse_mode="HTML")                       
     update.message.reply_text(
                            f"\n<b>{escape_html(title)}</b>"
                            f"\n\n{escape_html(explanation)}",
@@ -101,6 +104,7 @@ def natural(update, context):
     while r < 21 :
 
         pic_url = 'https://epic.gsfc.nasa.gov/archive/natural/{}/png/epic_1b_{}.png'.format(date[r],pic_id[r])
+        context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
         context.bot.send_photo(chat_id=str(chat_id), photo =str(pic_url),caption ="Latitude :" + str(latitude[r]) +", Longitude :" + str(longitude[r]))
         r = r+1
 
@@ -137,6 +141,7 @@ def enhanced(update, context):
     r = 0
     while r < 21:
         pic_url = 'https://epic.gsfc.nasa.gov/archive/enhanced/{}/png/epic_RGB_{}.png'.format(date[r], pic_id[r])
+        context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
         context.bot.send_photo(chat_id=str(chat_id), photo=str(pic_url),
                                caption="Latitude :" + str(latitude[r]) + ", Longitude :" + str(longitude[r]))
         r = r + 1
