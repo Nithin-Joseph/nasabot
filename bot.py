@@ -57,7 +57,7 @@ def day(update, context):
     hdurl= data['hdurl']
     pic_url = data['url']
     title = data['title']
-   
+
     #Replying
     context.bot.send_chat_action(chat_id=id, action=telegram.ChatAction.TYPING)
     context.bot.send_photo(chat_id=str(id), photo =str(pic_url),caption=
