@@ -1,6 +1,7 @@
 import requests
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import telegram
+import os
 
 
 
@@ -113,9 +114,10 @@ def natural(update, context):
 def enhanced(update, context):
     """Sent latest natural pic from EPIC"""
     chat_id = update.message.chat_id
+    api_key = os.environ.get("API_KEY","")
 
     # API_CALL
-    url = 'https://api.nasa.gov/EPIC/api/enhanced?api_key=NWGysqqeDHfscBLCaoN0u8cEYkax4bT0SiHoc3dd'
+    url = 'https://api.nasa.gov/EPIC/api/enhanced?api_key={}'.format(api_key)
     res = requests.get(url)
     data = res.json()
 
@@ -154,8 +156,8 @@ def enhanced(update, context):
 
 def main():
     """Start the bot."""
-
-    updater = Updater("1169696794:AAHejSdirYY8TZG08T_oNbPYcsCh7L-PUNg", use_context=True)
+    bot_token = os.environ.get("BOT_TOKEN","")
+    updater = Updater( bot_token, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
