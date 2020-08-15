@@ -47,7 +47,8 @@ def day(update, context):
     """"Sent pic of the day"""
     #API Call
     id = update.message.chat_id
-    url = 'https://api.nasa.gov/planetary/apod?api_key=NWGysqqeDHfscBLCaoN0u8cEYkax4bT0SiHoc3dd'
+    api_key = os.environ.get("API_KEY","")
+    url = 'https://api.nasa.gov/planetary/apod?api_key={}'.format(api_key)
     res = requests.get(url)
     data = res.json()
 
@@ -76,9 +77,10 @@ def day(update, context):
 def natural(update, context):
     """Sent latest natural pic from EPIC"""
     chat_id = update.message.chat_id
+    api_key = os.environ.get("API_KEY","")
     
     #API_CALL
-    url = 'https://api.nasa.gov/EPIC/api/natural?api_key=NWGysqqeDHfscBLCaoN0u8cEYkax4bT0SiHoc3dd'
+    url = 'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(api_key)
     res = requests.get(url)
     data = res.json()
 
