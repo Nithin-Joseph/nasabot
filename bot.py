@@ -54,6 +54,29 @@ def day(update, context):
 
 
     #Assigning_data
+    media = data['media_type']
+    if media == 'video':
+        date = data['date']
+        explanation = data['explanation']
+        pic_url = data['url']
+        title = data['title']
+
+        #Replying
+        context.bot.send_chat_action(chat_id=id, action=telegram.ChatAction.TYPING)
+        context.bot.send_photo(chat_id=str(id), photo =str(pic_url),caption=
+                           f"\n<b>Pic of the day :  </b><code>{escape_html(date)}</code>",
+                           parse_mode="HTML")                       
+        update.message.reply_text(
+                            f"\n<b>{escape_html(title)}</b>"
+                            f"\n\n{escape_html(explanation)}",
+                            parse_mode="HTML")
+                
+        update.message.reply_text(pic_url)
+        
+    
+    else:
+        pass
+
     date = data['date']
     explanation = data['explanation']
     hdurl= data['hdurl']
