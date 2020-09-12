@@ -55,6 +55,7 @@ def day(update, context):
 
     #Assigning_data
     media = data['media_type']
+    
     if media == 'video':
         date = data['date']
         explanation = data['explanation']
@@ -72,8 +73,8 @@ def day(update, context):
                             parse_mode="HTML")
                 
         update.message.reply_text(pic_url)
+        return
         
-    
     else:
         pass
 
