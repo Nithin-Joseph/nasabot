@@ -55,7 +55,6 @@ def day(update, context):
 
     #Assigning_data
     media = data['media_type']
-    
     if media == 'video':
         date = data['date']
         explanation = data['explanation']
@@ -135,6 +134,9 @@ def natural(update, context):
         context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
         context.bot.send_photo(chat_id=str(chat_id), photo =str(pic_url),caption ="Latitude :" + str(latitude[r]) +", Longitude :" + str(longitude[r]))
         r = r+1
+    update.message.reply_text('Done')
+
+
 
 
 def enhanced(update, context):
@@ -174,8 +176,7 @@ def enhanced(update, context):
         context.bot.send_photo(chat_id=str(chat_id), photo=str(pic_url),
                                caption="Latitude :" + str(latitude[r]) + ", Longitude :" + str(longitude[r]))
         r = r + 1
-
-
+    update.message.reply_text('Done')
 
 
 
