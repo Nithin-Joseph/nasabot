@@ -24,6 +24,7 @@ def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Possible inputs are:'
                               '\n /Day : To see the NASA pic of the Day'
+                              '\n /Mars : Realtime weather data of Mars, obtained from Insight Mars lander '
                               '\n /Natural : To see the latest natural images from NASA EPIC instrument'
                               '\n /Enhanced : To see latest available enhanced images from EPIC'
                               '\n /help : To resend this message, but y tho?'
@@ -38,7 +39,11 @@ def info(update, context):
         "'Earth Polychromatic Imaging Camera (EPIC) instrument. Uniquely positioned at the Earth-Sun Lagrange point, "
         "EPIC provides full disc imagery of the Earth and captures unique perspectives of certain astronomical events "
         "such as lunar transits using a 2048x2048 pixel CCD (Charge Coupled Device) detector coupled to a 30-cm "
-        "aperture Cassegrain telescope.")
+        "aperture Cassegrain telescope."
+        "\n\n About Insight API: NASA’s InSight Mars lander takes continuous weather measurements (temperature, wind, pressure) "
+        "on the surface of Mars at Elysium Planitia, a flat, smooth plain near Mars’ equator.This API provides per-Sol summary data "
+        "for each of the last seven available Sols (Martian Days). As more data from a particular Sol are downlinked from the spacecraft"
+        " (sometimes several days later), these values are recalculated, and consequently may change as more data are received on Earth.")
 
 
 
@@ -180,6 +185,57 @@ def enhanced(update, context):
 
 
 
+def mars(update, context):
+    
+    """Weather data from Mars using insight API"""
+    
+    degree_sign = u'\N{DEGREE SIGN}'
+    api_key = os.environ.get("API_KEY","")
+    url = 'https://api.nasa.gov/insight_weather/?api_key={}&feedtype=json&ver=1.0'.format(api_key)
+    res = requests.get(url)
+    data = res.json()
+    n = 0
+    x = data['sol_keys']
+    x = len(x)
+    while n < x :
+        try:
+            sols = data['sol_keys'][n]
+            temperature = data[sols]['AT']['av']
+            min_temp = round(data[sols]['AT']['mn'])
+            max_temp = round(data[sols]['AT']['mx'])
+            Avg_wind = round(data[sols]['HWS']['av'],2)
+            min_wind = round(data[sols]['HWS']['mn'])
+            max_wind = round(data[sols]['HWS']['mx'])
+            Avg_pressure = round(data[sols]['PRE']['av'],2)
+            min_pressure = round(data[sols]['PRE']['mn'])
+            max_pressure = round(data[sols]['PRE']['mx'])
+            season =data[sols]['Season']
+            season = season.capitalize()
+            date = data[sols]['First_UTC']
+            date = date.split('T',2)
+            date = date[0]
+            wind_direction = data[sols]['WD']['most_common']['compass_point'] 
+            n=n+1
+            update.message.reply_text(
+                            f"<b>Sol {sols}</b>"
+                            f"\n\n<b>{season}</b>"
+                            f"\n<b>Date</b>                                             <code>{date}</code>"
+                            f"\n<b>Temprature(Avg.)</b>                     <code>{temperature}{degree_sign}C</code>"
+                            f"\n<b>Temp(Min/Max)</b>                        <code>({min_temp}/{max_temp}{degree_sign}C)</code>"  
+                            f"\n<b>Wind speed(Avg.)</b>                      <code>{Avg_wind} m/s</code>"
+                            f"\n<b>Wind speed(Min/Max)</b>             <code>({min_wind}-{max_wind} m/s)</code>"
+                            f"\n<b>Wind Direction</b>                            <code>{wind_direction}</code>"
+                            f"\n<b>Pressure(Min/Max)</b>                  <code>({min_pressure}/{max_pressure}Pa)</code>"
+                            f"\n<b>Atmospheric Pressure(Avg.)</b>   <code>{Avg_pressure}Pa</code>" ,
+                            parse_mode="HTML"
+                                    )
+        except:
+            n=n+1
+            update.message.reply_text('Incomplete data on Remaining days')
+            pass
+
+
+
 
 def main():
     """Start the bot."""
@@ -196,6 +252,7 @@ def main():
     dp.add_handler(CommandHandler("day", day))
     dp.add_handler(CommandHandler("natural", natural))
     dp.add_handler(CommandHandler("enhanced", enhanced))
+    dp.add_handler(CommandHandler("mars", mars))
 
     # Start the Bot
     updater.start_polling()
