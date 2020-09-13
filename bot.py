@@ -97,6 +97,7 @@ def natural(update, context):
     url = 'https://api.nasa.gov/EPIC/api/natural?api_key={}'.format(api_key)
     res = requests.get(url)
     data = res.json()
+    x=len(data)
 
     #assigning_variables_and_adding_data_to_them
     latitude = []
@@ -119,12 +120,16 @@ def natural(update, context):
         date.append(date_time)
     update.message.reply_text("Date of capture :" + str(date[1]))
     r = 0
-    while r < 21 :
-
-        pic_url = 'https://epic.gsfc.nasa.gov/archive/natural/{}/png/epic_1b_{}.png'.format(date[r],pic_id[r])
-        context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
-        context.bot.send_photo(chat_id=str(chat_id), photo =str(pic_url),caption ="Latitude :" + str(latitude[r]) +", Longitude :" + str(longitude[r]))
-        r = r+1
+    while r <= x :
+        try:
+            pic_url = 'https://epic.gsfc.nasa.gov/archive/natural/{}/png/epic_1b_{}.png'.format(date[r],pic_id[r])
+            context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
+            context.bot.send_photo(chat_id=str(chat_id), photo =str(pic_url),caption ="Latitude :" + str(latitude[r]) +", Longitude :" + str(longitude[r]))
+            r = r+1
+        except:
+            update.message.reply_text('Data missing')
+            r = r + 1
+            pass
     update.message.reply_text('Done')
 
 
@@ -139,6 +144,7 @@ def enhanced(update, context):
     url = 'https://api.nasa.gov/EPIC/api/enhanced?api_key={}'.format(api_key)
     res = requests.get(url)
     data = res.json()
+    x=len(data)
 
     # assigning_variables_and_adding_data_to_them
     latitude = []
@@ -161,12 +167,17 @@ def enhanced(update, context):
         date.append(date_time)
     update.message.reply_text("Date of capture :" + str(date[1]))
     r = 0
-    while r < 21:
-        pic_url = 'https://epic.gsfc.nasa.gov/archive/enhanced/{}/png/epic_RGB_{}.png'.format(date[r], pic_id[r])
-        context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
-        context.bot.send_photo(chat_id=str(chat_id), photo=str(pic_url),
-                               caption="Latitude :" + str(latitude[r]) + ", Longitude :" + str(longitude[r]))
-        r = r + 1
+    while r <= x:
+        try:
+            pic_url = 'https://epic.gsfc.nasa.gov/archive/enhanced/{}/png/epic_RGB_{}.png'.format(date[r], pic_id[r])
+            context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
+            context.bot.send_photo(chat_id=str(chat_id), photo=str(pic_url),
+                                  caption="Latitude :" + str(latitude[r]) + ", Longitude :" + str(longitude[r]))
+            r = r + 1
+        except:
+            update.message.reply_text('Data missing')
+            r = r + 1
+            pass
     update.message.reply_text('Done')
 
 
