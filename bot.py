@@ -120,7 +120,7 @@ def natural(update, context):
         date.append(date_time)
     update.message.reply_text("Date of capture :" + str(date[1]))
     r = 0
-    while r <= x :
+    while r < x :
         try:
             pic_url = 'https://epic.gsfc.nasa.gov/archive/natural/{}/png/epic_1b_{}.png'.format(date[r],pic_id[r])
             context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
@@ -167,7 +167,7 @@ def enhanced(update, context):
         date.append(date_time)
     update.message.reply_text("Date of capture :" + str(date[1]))
     r = 0
-    while r <= x:
+    while r < x:
         try:
             pic_url = 'https://epic.gsfc.nasa.gov/archive/enhanced/{}/png/epic_RGB_{}.png'.format(date[r], pic_id[r])
             context.bot.send_chat_action(chat_id=chat_id, action=telegram.ChatAction.UPLOAD_PHOTO)
@@ -228,7 +228,7 @@ def mars(update, context):
                                     )
         except:
             n=n+1
-            update.message.reply_text('Incomplete data on Remaining days')
+            update.message.reply_text('Incomplete data ')
             pass
 
 
