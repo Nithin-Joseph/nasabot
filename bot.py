@@ -234,7 +234,7 @@ def mars(update, context):
 
 
 def Source(update, context):
-    
+
     update.message.reply_text('https://github.com/Nithin-Joseph/nasabot')
 
 
@@ -257,6 +257,7 @@ def main():
     dp.add_handler(CommandHandler("natural", natural))
     dp.add_handler(CommandHandler("enhanced", enhanced))
     dp.add_handler(CommandHandler("mars", mars))
+    dp.add_handler(CommandHandler("source", Source))
 
     # Start the Bot
     updater.start_polling()
