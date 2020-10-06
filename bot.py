@@ -16,7 +16,7 @@ def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text("Hi There! \nI'm the NASA Bot, I use NASA API to bring you information that NASA provides"
                               ".Currently I provide data about NASA pic of the day and Near real time Images from "
-                              "Earth Polychromatic Imaging Camera (EPIC) instrument."
+                              "Earth Polychromatic Imaging Camera (EPIC) instrument and mars weather data from Insight Mars Lander."
                               "\n send /help for more info")
 
 
